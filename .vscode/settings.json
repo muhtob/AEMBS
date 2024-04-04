@@ -1,0 +1,5 @@
+{
+    "cmake.buildBeforeRun": true,
+    "cmake.configureOnOpen": false,
+    "cmake.useCMakePresets": "always"
+}

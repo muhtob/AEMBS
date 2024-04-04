@@ -1,0 +1,12 @@
+#include "buttons.h"
+#include "debounce.h"
+
+BTN_Init();
+Debounce_Init();
+
+
+#include "McuButton.h"
+#include "McuDebounce.h"
+
+McuBtn_Init();
+McuDbnc_Init();
