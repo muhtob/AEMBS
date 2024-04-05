@@ -8,6 +8,7 @@
 #include "McuDebounce.h"
 #include "McuRTOS.h"
 #include "buttons.h"
+#include "game.h"
 #if configUSE_SEGGER_SYSTEM_VIEWER_HOOKS
   #include "McuSystemView.h"
 #endif
@@ -56,7 +57,7 @@ static void OnDebounceEvent(McuDbnc_EventKinds event, uint32_t buttons) {
     case MCUDBNC_EVENT_LONG_RELEASED:
       button = BTN_RotateButton(button);
       /*! \todo need to handle button in application */
-      myInterrupt(button);
+      OnButtonEvent(button,event);
       break;
 
     case MCUDBNC_EVENT_END:

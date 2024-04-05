@@ -187,24 +187,24 @@ static void gpio_IsrCallback(uint gpio, uint32_t events) {
 
   switch(gpio) {
     case BUTTONS_PINS_NAVCENTER_PIN:
-      McuSystemView_Print((const char*)"Button CENTER pressed.\r\n");
+      //McuSystemView_Print((const char*)"Button CENTER pressed.\r\n");
       button = BTN_BIT_NAV_CENTER;
       break;
     case BUTTONS_PINS_NAVUP_PIN:
       button = BTN_BIT_NAV_UP;
-      McuSystemView_Print((const char*)"Button UP pressed.\r\n");
+      //McuSystemView_Print((const char*)"Button UP pressed.\r\n");
       break;
     case BUTTONS_PINS_NAVDOWN_PIN:
       button = BTN_BIT_NAV_DOWN;
-      McuSystemView_Print((const char*)"Button DOWN pressed.\r\n");
+      //McuSystemView_Print((const char*)"Button DOWN pressed.\r\n");
       break;
     case BUTTONS_PINS_NAVLEFT_PIN:
       button = BTN_BIT_NAV_LEFT;
-      McuSystemView_Print((const char*)"Button LEFT pressed.\r\n");
+      //McuSystemView_Print((const char*)"Button LEFT pressed.\r\n");
       break;
     case BUTTONS_PINS_NAVRIGHT_PIN:
       button = BTN_BIT_NAV_RIGHT;
-      McuSystemView_Print((const char*)"Button RIGHT pressed.\r\n");
+      //McuSystemView_Print((const char*)"Button RIGHT pressed.\r\n");
       break;
     default:
       button = 0;

@@ -10,6 +10,7 @@
 #include "leds.h"
 #include "buttons.h"
 #include "debounce.h"
+#include "game.h"
 
 uint32_t SystemCoreClock = 120000000;
 
@@ -27,10 +28,12 @@ void PL_Init(void){
     McuBtn_Init();    
     McuDbnc_Init();
     Leds_Init();
+    game_Init();
 
 }
 
 void PL_Deinit(void){ // Deinit in umgekehrter Reihenfolge zu Init
+    game_Deinit();
     Leds_Deinit();
     McuDbnc_Deinit();
     McuBtn_Deinit();
