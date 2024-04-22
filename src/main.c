@@ -10,38 +10,27 @@
 #include "buttons.h"
 #include "debounce.h"
 #include "game.h"
+//#include "queue.h"
+#include "queue_lib.h"
 
+extern QueueHandle_t eventQueue; 
 
-static void mainTask(void *pv){
-    LEDS_Leds_e led = (LEDS_Leds_e)pv;
-
-    for(;;){
-        McuSystemView_Print((const char*)"measure Time for toggle\r\n");
-        McuSystemView_OnUserStart(1); // using ID 1 -> measure time from start to stop
-        Leds_Neg(led);
-        McuSystemView_OnUserStop(1); // using ID 1
-        vTaskDelay(pdMS_TO_TICKS(500));
-
-    }
-}
-
+// Task with queue
 static void buttonTask(void *pv){
-    //BTN_Buttons_e button = (BTN_Buttons_e)pv;
-    extern BTN_Buttons_e pressedButton;
-    extern McuDbnc_EventKinds btnEvent;
+    //extern QueueHandle_t eventQueue;
     for(;;){
-
-        if(pressedButton == BTN_NAV_CENTER && btnEvent == (MCUDBNC_EVENT_RELEASED || MCUDBNC_EVENT_LONG_RELEASED)){
-            Leds_Neg(LEDS_BLUE);
-            //Leds_Neg(LEDS_RED);
-            //Leds_Neg(LEDS_GREEN);
-            McuSystemView_Print((const char*)"Button CENTER pressed\r\n");
-            // reset Button
-            pressedButton = BTN_NOF_BUTTONS;
+        McuDbnc_EventKinds event;
+        if(xQueueReceive(eventQueue, &event, pdMS_TO_TICKS(20))!=pdPASS){
+#if configUSE_SEGGER_SYSTEM_VIEWER_HOOKS
+    //  SEGGER_SYSVIEW_PrintfTarget("Could not receive button event from queue!");
+#endif
         }
+        if((event == MCUDBNC_EVENT_RELEASED) || (event == MCUDBNC_EVENT_LONG_RELEASED)){
+            Leds_Neg(LEDS_BLUE);
+        }
+        event = MCUDBNC_EVENT_END;
         vTaskDelay(pdMS_TO_TICKS(50)); // wait for 500 ms
-        
-    }
+        }
 }
 
 
@@ -49,13 +38,9 @@ int main(void)
 {
     PL_Init();
 
-    // Startup Parameter
-    LEDS_Leds_e led = LEDS_GREEN;
-
     if (xTaskCreate(buttonTask, "buttonTask", 208/sizeof(StackType_t), (void *)NULL, tskIDLE_PRIORITY+1, (TaskHandle_t *)NULL) != pdPASS)
     {               
         for(;;){}   
     } 
-    
     vTaskStartScheduler();
 }

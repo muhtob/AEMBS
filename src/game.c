@@ -2,6 +2,7 @@
 #include "buttons.h"
 #include "debounce.h"
 #include "McuDebounce.h"
+#include "queue_lib.h"
 
 // global vars
 volatile BTN_Buttons_e pressedButton;
